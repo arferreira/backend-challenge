@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{%load crispy_forms_tags%}
+
+{%block title %} Task pending {% endblock %}
+
+{% block content %} 
+<!--Formulário-->
+    <div class="h-100 p-5 bg-light border rounded-3">
+        <h1>Add Task</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <br>
+            <input class="btn btn-info" type="submit" value="Save">
+        </form>
+        <hr>
+<!--Fim formulário-->        
+
+        <h1>Task pending: </h1>
+        <div class="list-group">
+            {% for task in task_pending %}
+                {% if task.category == 'urgent' %}
+                <button type="button" class="list-group list-group-item-danger list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{task.id}}">
+                {% else %}
+                    {% if task.category == 'important' %}
+                    <button type="button" class="list-group list-group-item-warning list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{task.id}}">
+                    {% else %}
+                    <button type="button" class="list-group list-group-item-primary list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{task.id}}">
+                    {% endif %}
+                {% endif %}
+                <h5>{{task.description}}</h5>
+                <small>Create on: {{task.creation.day}}/{{task.creation.month}}/{{task.creation.year}} </small>
+                </button>
+                
+   <!--Modal-->
+            <div class="modal fade" id="modal{{task.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{task.description}} | {{task.category|capfirst}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!--Modal Body-->
+                        <div class="modal-body">
+                            <p>
+                                <a class="btn btn-sucess" href="{% url 'completed_task' task.id %}">Completed</a>
+                                <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Delete</a>
+                                <a class="btn btn-warning" href="{% url 'postpone_task' task.id %}">Postpone</a>
+                                <a class="btn btn-primary" href="{% url 'edit_task' task.id %}">Edit</a>
+                                
+                            </p>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+ <!--<div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>> -->
