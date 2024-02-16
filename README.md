@@ -33,3 +33,7 @@ You need to develop a distributed task queue system using Python, Django, and an
 - Implement task prioritization to handle high-priority tasks efficiently.
 - Support for scheduling recurring tasks.
 - Implement security measures to prevent unauthorized access to the system.
+
+The result is:
+<img src="image.png" alt="Challenge result">
+

@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{%load crispy_forms_tags%}
+
+{%block title %} {{task.description}} {%endblock%}
+
+{%block content%}
+<div class="h-100 p-5 bg-light border rounded-3">
+    <h1>Edit {{task.description}}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <br>
+        <input class="btn btn-sucess" type="submit" value="Save changes">
+        <a class="btn btn-danger" href="{% url 'task_pending_list%}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{%extends 'base.html'%}
+{%load crispy_forms_tags%}
+
+{%block title %} Completed Tasks {%endblock%}
+
+{%block content%}
+    <div class="h-100 p-5 bg-light border rounded-3">
+        <h1>Completed Task</h1>
+        <div class="list-group">
+            {%for task in completed_task%}
+                <button type="button" class="list-group list-group-item-sucess list-group-item-action" data-bs-toggle="modal" data-bs-target="#modal{{task.id}}">
+                <h5>{{task.description}}</h5>
+                <small>Create on: {{task.creation.day}}/{{task.creation.month}}/{{task.creation.year}} </small>
+                </button>
+                
+   <!--Modal-->
+            <div class="modal fade" id="modal{{task.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{task.description}} | {{task.category|capfirst}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!--Modal Body-->
+                        <div class="modal-body">
+                            <p>
+                                <a class="btn btn-danger" href="{% url 'delete_task' task.id %}">Delete</a>  
+                            </p>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <br>
+            <input class="btn btn-sucess" type="submit" value="Save changes">
+            <a class="btn btn-danger" href="{% url 'task_pending_list%}">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
